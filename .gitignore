@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+take5-backend/
 
 # Spyder project settings
 .spyderproject
