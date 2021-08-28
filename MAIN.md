@@ -339,10 +339,18 @@ class SurveyUserAnswerSerializer(serializers.ModelSerializer):
 ## Agradecimento
 
 ## Referências
-https://www.django-rest-framework.org/
-https://buildmedia.readthedocs.org/media/pdf/django/3.2.x/django.pdf
-https://www.youtube.com/watch?v=OUZIaoCSJas
-https://www.delftstack.com/pt/howto/django/django-mysqldb/
-https://stackoverflow.com/questions/24462007/how-to-deal-with-this-error-1049-unknown-database-users-ohyunjun-work-astra/24462224
-https://stackoverflow.com/questions/7759170/mysql-table-doesnt-exist-but-it-does-or-it-should
-https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html
+1. [Documentação do Django Rest Framework](https://www.django-rest-framework.org/)
+2. [Documentação do Django](https://buildmedia.readthedocs.org/media/pdf/django/3.2.x/django.pdf)
+3. [Instalando e Configurando Mysql Server no Windows](https://www.youtube.com/watch?v=OUZIaoCSJas)
+4. [Conecte o Django ao banco de dados MySQL](https://www.delftstack.com/pt/howto/django/django-mysqldb/)
+5. [ERRO 1049 UNKNOWN DATABASE](https://stackoverflow.com/questions/24462007/)
+6. [ERRO 1049 UNKNOWN DATABASE](how-to-deal-with-this-error-1049-unknown-database-users-ohyunjun-work-astra/24462224)
+7. [MySQL table doesnt exist](https://stackoverflow.com/questions/7759170/mysql-table-doesnt-exist-but-it-does-or-it-should)
+8. [Identifier Case Sensitivity](https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html)
+9. []()
+10. []()
+11. []()
+12. []()
+13. []()
+14. []()
+15. []()
