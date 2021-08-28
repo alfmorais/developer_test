@@ -45,4 +45,5 @@ class SurveyUserAnswerAdmin(admin.ModelAdmin):
     That class provide for admin interface a good reference
     from database Survey User Answer
     """
-    list_display = ('user_answer',)
+    list_display = ('user_answer',
+                    'user_choice')

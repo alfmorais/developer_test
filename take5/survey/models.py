@@ -10,6 +10,9 @@ class Survey(models.Model):
     survey_id = models.AutoField(primary_key=True)
     survey_name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return str(self.survey_name)
+
 
 class SurveyQuestion(models.Model):
     """
@@ -18,6 +21,9 @@ class SurveyQuestion(models.Model):
     survey = models.ForeignKey('Survey', on_delete=models.CASCADE)
     question_id = models.AutoField(primary_key=True)
     question = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.question)
 
 
 class SurveyQuestionAlternative(models.Model):
@@ -31,12 +37,30 @@ class SurveyQuestionAlternative(models.Model):
     second_alternative = models.CharField(max_length=255)
     third_alternative = models.CharField(max_length=255)
 
+    def __str__(self):
+        return str(self.survey_question)
+
 
 class SurveyUserAnswer(models.Model):
     """
     This class will created a answer for our survey question
     """
+    ALTERNATIVE_CHOICES = (
+        ("a)", "FIRST ALTERNATIVE"),
+        ("b)", "SECOND ALTERNATIVE"),
+        ("c)", "THIRD ALTERNATIVE"),
+
+    )
     user_answer = models.ForeignKey(
         'SurveyQuestionAlternative',
         on_delete=models.CASCADE
     )
+    user_choice = models.CharField(
+        max_length=255,
+        choices=ALTERNATIVE_CHOICES,
+        blank=False,
+        null=False
+    )
+
+    def __str__(self):
+        return str(self.user_answer)

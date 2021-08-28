@@ -216,7 +216,7 @@ A pesquisa inicialmente foi elaborada em arquivo.txt e depois vamos inserir no P
 ~~~txt
 Questionário Django
 
-Qual é o framework Python que tem o seguinte slogan: "DjangoThe web framework for perfectionists with deadlines."
+Qual é o framework Python que tem o seguinte slogan: "Django The web framework for perfectionists with deadlines."
 
 a) Flask
 b) FastAPI
