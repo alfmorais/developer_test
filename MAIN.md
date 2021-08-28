@@ -18,7 +18,7 @@ O MySQL é um sistema de gerenciamento de banco de dados, que utiliza a linguage
 ## Teste
 Nessa seção será descrita todos os passos para o desenvolvimento do teste para a vaga Desenvolvedor Backend.
 
-### Parte 1 - Git, Todo mundo junto
+### Parte 1 (3 partes) - _Git, Todo mundo junto_
 
 #### Dê um fork deste projeto
 Passo a passo para fazer o fork no repositório disponibilizado pela empresa Take5:
@@ -53,7 +53,7 @@ Todos os commits estão enumerados e com descrição do que foi alterado. Exempl
 git commit -m "1° Commit: Iniciado o projeto Django e feito as migrações do banco de dados padrão do Django"
 ~~~
 
-### Parte 2
+### Parte 2 (3 Partes) - _Welcome to the Django_
 
 #### Dentro do diretório deste projeto, inicialize um projeto Django, com o nome de "take5"
 Para iniciar um projeto com django basta seguir o seguinte passo: 
@@ -157,6 +157,9 @@ class Survey(models.Model):
     survey_id = models.AutoField(primary_key=True)
     survey_name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return str(self.survey_name)
+
 
 class SurveyQuestion(models.Model):
     """
@@ -165,6 +168,9 @@ class SurveyQuestion(models.Model):
     survey = models.ForeignKey('Survey', on_delete=models.CASCADE)
     question_id = models.AutoField(primary_key=True)
     question = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.question)
 
 
 class SurveyQuestionAlternative(models.Model):
@@ -178,15 +184,34 @@ class SurveyQuestionAlternative(models.Model):
     second_alternative = models.CharField(max_length=255)
     third_alternative = models.CharField(max_length=255)
 
+    def __str__(self):
+        return str(self.survey_question)
+
 
 class SurveyUserAnswer(models.Model):
     """
     This class will created a answer for our survey question
     """
+    ALTERNATIVE_CHOICES = (
+        ("a)", "FIRST ALTERNATIVE"),
+        ("b)", "SECOND ALTERNATIVE"),
+        ("c)", "THIRD ALTERNATIVE"),
+
+    )
     user_answer = models.ForeignKey(
         'SurveyQuestionAlternative',
         on_delete=models.CASCADE
     )
+    user_choice = models.CharField(
+        max_length=255,
+        choices=ALTERNATIVE_CHOICES,
+        blank=False,
+        null=False
+    )
+
+    def __str__(self):
+        return str(self.user_answer)
+
 ~~~
 
 #### Gere a migração do Banco de Dados para que suas tabela sejam criadas
@@ -235,9 +260,42 @@ b) python manage.py runserver
 c) uvicorn main:my_awesome_api --reload
 ~~~
 
-### Parte 3
+Painel do administrador fornecido pelo Framework Django e seus registro da pesquisa de acordo com o arquivo.txt:
+
+![Text Alt](images/take5_Imagem5.png)
+
+![Text Alt](images/take5_Imagem6.png)
+
+![Text Alt](images/take5_Imagem7.png)
+
+![Text Alt](images/take5_Imagem8.png)
+
+### Parte 3 (3 Partes) - _Show me the money_
 
 #### Instale o Django Rest Framework no projeto, utilizando o PIP e incluindo ele no seu settings.py
+Instalando o Django Rest Framework
+
+~~~cmd
+pip install djangorestframework
+~~~
+
+Inserido o novo recurso do Django Rest Framework (DRF) no arquivo settings.py na lista INSTALLED_APPS:
+
+~~~python
+# Application definition
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # app installed and included by developer
+    'take5',
+    'survey',
+    'rest_framework',
+]
+~~~
 
 #### Crie uma view para apresentar suas pesquisas, associando ela a uma URL do seu projeto
 
