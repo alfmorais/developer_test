@@ -16,35 +16,133 @@ Django Rest Framework (DRF)é um framework flexível e poderoso para desenvolvim
 O MySQL é um sistema de gerenciamento de banco de dados, que utiliza a linguagem SQL como interface. Toda aplicação foi desenvolvida com o MySQL, porém não tinha estudado esse banco de dados antes. Os materiais de consulta estão referenciados nas Referências.
 
 ## Teste
+Nessa seção será descrita todos os passos para o desenvolvimento do teste para a vaga Desenvolvedor Backend.
 
-### Parte 1
+### Parte 1 - Git, Todo mundo junto
 
 #### Dê um fork deste projeto
+Passo a passo para fazer o fork no repositório disponibilizado pela empresa Take5:
+
+1. Login com o usuário e senha na pagina do [GitHub](https://github.com/)
+2. Accessado o [repositório da empresa Take5](https://github.com/take5/developer_test)
+3. Clicado no botão fork conforme destacado na imagem abaixo: 
+
+![Text Alt](images/take5_Imagem1.png)
 
 #### Crie uma branch dentro do seu fork com o seu email como nome. 
+Passo a passo para criar uma nova branch
+
+1. Digite o comando para fazer uma nova Branch:
+~~~cmd
+git branch alfredneto@hotmail.com
+~~~
+
+2. Digite o comando para trocar do Main para nova Branch:
+~~~cmd
+git checkout alfredneto@hotmail.com
+~~~
+
+3. Confirmação que você já está na nova Branch: 
+
+![Text Alt](images/take5_Imagem2.png)
 
 #### Para os próximos passos, gostaríamos que você efetuasse os pushs conforme sua evolução.
+Todos os commits estão enumerados e com descrição do que foi alterado. Exemplo: 
+
+~~~cmd
+git commit -m "1° Commit: Iniciado o projeto Django e feito as migrações do banco de dados padrão do Django"
+~~~
 
 ### Parte 2
 
 #### Dentro do diretório deste projeto, inicialize um projeto Django, com o nome de "take5"
+Para iniciar um projeto com django basta seguir o seguinte passo: 
+
+~~~cmd
+django-admin startproject take5
+~~~
 
 #### Rode as migrações do seu projeto para inicializar as tabelas do django
+A migração do banco de dados foi gerada através dos comandos <b>django-admin</b> no terminal da IDE.
+
+1° Comando:
+
+~~~cmd
+python manage.py makemigrations
+~~~
+
+2° Comando
+
+~~~cmd
+python manage.py migrate
+~~~
 
 #### Inicie o servidor e verifique se sua aplicação está funcionando
+Para iniciar o servidor, digite o seguinte comando no terminal:
+
+~~~cmd
+python manage.py runserver
+~~~
+
+A seguinte tela será mostrada no terminal e clique no link destacado na mensagem do terminal: 
+
+![Text Alt](images/take5_Imagem3.png)
+
+A página do Localhost http://127.0.0.1:8000/ será aberta no navegador, mostrando que Django foi instalado com sucesso: 
+
+![Text Alt](images/take5_Imagem4.png)
 
 #### Dentro do projeto, inicialize uma aplicação chamada "survey"
+Para iniciar uma aplicação no projeto take5, sigas os passos abaixo: 
+
+1. Entre no diretório do projeto take5:
+
+~~~cmd
+cd take5
+~~~
+
+2. Digite o comando Django para criar uma nova aplicação:
+
+~~~cmd
+django-admin startapp survey
+~~~
+
+Após esse comando a pasta será criada com os arquivos:
+
+- __ __init__ __.py
+- admin.py
+- apps.py
+- models.py
+- tests.py
+- views.py
 
 #### Inclua survey no projeto take5
+No arquivo settings.py da aplicação take5, adicione nossa aplicação survey e take5 na lista INSTALLED_APPS:
+
+~~~python
+# Application definition
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # app installed and included by developer
+    'take5',
+    'survey',
+]
+~~~
 
 #### Crie modelos para sua aplicação: 
+Todos os modelos em django são criado no arquivo models.py. Seguindo a ordem: 
 
 - Survey (Pesquisa)
 - SurveyQuestion (Perguntas da pesquisa)
 - SurveyQuestionAlternative (Alternativas para as perguntas da pesquisa)
 - SurveyUserAnswer (Respostas dos usuários para a Pesquisa)
 
-O códgio foi criado no arquivo models.py da aplicação survey e pode ser consultado abaixo: 
+O códgio pode ser consultado abaixo: 
 
 ~~~python
 from django.db import models
