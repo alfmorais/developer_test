@@ -14,8 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from survey import (viewsets, serializers)
+
+
+# to define general routes for API
+route = routers.DefaultRouter()
+
+
+# defined routes to SURVEY API
+# Survey
+route.register(r'survey', viewsets.SurveyViewSet,
+               basename="SurveyDetail")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # url standard from Django Rest Framework
+    path('api-auth/', include('rest_framework.urls',
+                              namespace='rest_framework')),
+    # url for API
+    path('', include(route.urls)),
 ]

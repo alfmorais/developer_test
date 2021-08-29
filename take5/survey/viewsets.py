@@ -1,15 +1,13 @@
 from django.core import serializers
+from django.db.models import Prefetch
 from django.http import JsonResponse
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
-from .models import (Survey,
-                     SurveyQuestion,
-                     SurveyQuestionAlternative,
+from .models import (Survey, SurveyQuestion, SurveyQuestionAlternative,
                      SurveyUserAnswer)
-from .serializers import (SurveySerializer,
-                          SurveyQuestionSerializer,
-                          SurveyQuestionAlternativeSerializer,
+from .serializers import (SurveyQuestionAlternativeSerializer,
+                          SurveyQuestionSerializer, SurveySerializer,
                           SurveyUserAnswerSerializer)
 
 
@@ -19,12 +17,20 @@ class SurveyViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Survey.objects.all()
 
-    def get(self, request, format=None):
-        """
-        This method GET function will responsable for
-        show all values regarding to Survey include
-        all foreing key and database relationship
-        """
-        return Response({
-            "message": "It's OK until now",
-        })
+
+class SurveyQuestionViewSet(viewsets.ModelViewSet):
+    serializer_class = SurveyQuestionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = SurveyQuestion.objects.all()
+
+
+class SurveyQuestionAlternativeViewSet(viewsets.ModelViewSet):
+    serializer_class = SurveyQuestionAlternativeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = SurveyQuestionAlternative.objects.all()
+
+
+class SurveyUserAnswerViewSet(viewsets.ModelViewSet):
+    serializer_class = SurveyUserAnswerSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = SurveyUserAnswer.objects.all()
