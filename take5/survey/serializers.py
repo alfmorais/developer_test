@@ -21,23 +21,28 @@ class SurveyQuestionSerializer(serializers.ModelSerializer):
 
 
 class SurveySerializer(serializers.ModelSerializer):
+    question = SurveyQuestionSerializer(read_only=True, many=True)
 
     class Meta:
         model = Survey
-        fields = "__all__"
+        fields = (
+            'survey_id',
+            'survey_name',
+            'question',
+        )
 
 
 class SurveyQuestionAlternativeSerializer(serializers.ModelSerializer):
-    question = SurveyQuestionSerializer(many=True, read_only=True)
-    survey_name = SurveySerializer(many=True, read_only=True)
+    question = SurveySerializer(read_only=True, many=True)
+    user_answer = SurveyUserAnswerSerializer(read_only=True, many=True)
 
     class Meta:
         model = SurveyQuestionAlternative
-        fields = [
+        fields = (
             'survey_question',
             'first_alternative',
             'second_alternative',
             'third_alternative',
-            'question',
-            'survey_name',
-        ]
+            'user_answer',
+            'question'
+        )

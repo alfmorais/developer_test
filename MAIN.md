@@ -18,6 +18,26 @@ O MySQL é um sistema de gerenciamento de banco de dados, que utiliza a linguage
 ## Teste
 Nessa seção será descrita todos os passos para o desenvolvimento do teste para a vaga Desenvolvedor Backend.
 
+## Bibliotecas utilizada no projeto
+Como o comando abaixo, cria um arquivo com o nome requirements.txt que demonstra todas as bibliotecas utilizada para o desenvolvimento do projeto.
+
+~~~cmd
+py -m pip freeze > requirements.txt
+~~~
+
+arquivo requirements.txt
+
+~~~txt
+asgiref==3.4.1
+Django==3.2.6
+django-filter==2.4.0
+djangorestframework==3.12.4
+Markdown==3.3.4
+mysqlclient==2.0.3
+pytz==2021.1
+sqlparse==0.4.1
+~~~
+
 ### Parte 1 (3 partes) - _Git, Todo mundo junto_
 
 #### Dê um fork deste projeto
@@ -299,6 +319,36 @@ INSTALLED_APPS = [
 
 #### Crie uma view para apresentar suas pesquisas, associando ela a uma URL do seu projeto
 
+~~~python
+from django.core import serializers
+from django.db.models import Prefetch
+from django.http import JsonResponse
+from rest_framework import permissions, viewsets
+from rest_framework.response import Response
+
+from .models import (Survey, SurveyQuestion, SurveyQuestionAlternative,
+                     SurveyUserAnswer)
+from .serializers import (SurveyQuestionAlternativeSerializer,
+                          SurveyQuestionSerializer, SurveySerializer,
+                          SurveyUserAnswerSerializer)
+
+
+# define viewsets for classes created on serializers.py
+class SurveyQuestionAlternativeViewSet(viewsets.ModelViewSet):
+    serializer_class = SurveyQuestionAlternativeSerializer
+    queryset = SurveyQuestionAlternative.objects.all()
+
+    def get_queryset(self):
+        survey = Survey.objects.all().values_list(
+            'survey_name', flat=True)
+        for value in survey:
+            queryset = SurveyQuestionAlternative.objects.prefetch_related(
+                'survey_question')
+            queryset = queryset.filter(
+                survey_question__survey__survey_name=value)
+        return queryset
+
+~~~
 #### Crie um serializer para pegar Survey, SurveyQuestion e SurveyQuestionAlternative. Tente utilizar o prefetch_related nas queries para diminuir a quantidade de queryes necessárias para a apresentação dos dados
 
 ~~~python
@@ -310,33 +360,97 @@ from .models import (Survey,
 
 
 # Define serializers class from our models.
-class SurveySerializer(serializers.ModelSerializer):
+class SurveyUserAnswerSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = Survey
-        fields = '__all__'
+        model = SurveyUserAnswer
+        fields = "__all__"
 
 
 class SurveyQuestionSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = SurveyQuestion
-        fields = '__all__'
+        fields = "__all__"
+
+
+class SurveySerializer(serializers.ModelSerializer):
+    question = SurveyQuestionSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Survey
+        fields = (
+            'survey_id',
+            'survey_name',
+            'question',
+        )
 
 
 class SurveyQuestionAlternativeSerializer(serializers.ModelSerializer):
+    question = SurveySerializer(read_only=True, many=True)
+    user_answer = SurveyUserAnswerSerializer(read_only=True, many=True)
+
     class Meta:
         model = SurveyQuestionAlternative
-        fields = '__all__'
+        fields = (
+            'survey_question',
+            'first_alternative',
+            'second_alternative',
+            'third_alternative',
+            'user_answer',
+            'question'
+        )
 
-
-class SurveyUserAnswerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SurveyUserAnswer
-        fields = '__all__'
 ~~~
 
 #### Acesse a página da sua pesquisa e copie o JSON de resultado para o arquivo result.json situado no diretório raiz deste projeto
 
+~~~json
+[
+    {
+        "survey_question": 1,
+        "first_alternative": "a) Flask",
+        "second_alternative": "b) FastAPI",
+        "third_alternative": "c) Django",
+        "user_answer": [
+            {
+                "id": 1,
+                "user_choice": "c)",
+                "user_answer": 1
+            }
+        ]
+    },
+    {
+        "survey_question": 2,
+        "first_alternative": "a) django-admin startproject <name_project>",
+        "second_alternative": "b) python manage.py runserver",
+        "third_alternative": "c) uvicorn main:app --reload",
+        "user_answer": [
+            {
+                "id": 2,
+                "user_choice": "a)",
+                "user_answer": 2
+            }
+        ]
+    },
+    {
+        "survey_question": 3,
+        "first_alternative": "a) flask run",
+        "second_alternative": "b) python manage.py runserver",
+        "third_alternative": "c) uvicorn main:my_awesome_api --reload",
+        "user_answer": [
+            {
+                "id": 3,
+                "user_choice": "b)",
+                "user_answer": 3
+            }
+        ]
+    }
+]
+~~~
+
 ## Agradecimento
+Agradeço a oportunidade participar do processo seletivo para Desenvolvedor Back-end Python. Foi desafiador tentar conciliar os requisitos técnicos no conhecimento adquirido. Diferente do resultado, aprendi mais um pouco com o desafio e com certeza vai agregar muito no meu conhecimento. Obrigado. 
 
 ## Referências
 1. [Documentação do Django Rest Framework](https://www.django-rest-framework.org/)
@@ -350,7 +464,3 @@ class SurveyUserAnswerSerializer(serializers.ModelSerializer):
 9. [Django select_related and prefetch_related](https://betterprogramming.pub/django-select-related-and-prefetch-related-f23043fd635d)
 10. [QuerySet API reference](https://docs.djangoproject.com/en/3.2/ref/models/querysets/)
 11. [How to Use Select Related and Prefetch Related in Django](https://www.youtube.com/watch?v=TzgZBg7oXNA)
-12. []()
-13. []()
-14. []()
-15. []()

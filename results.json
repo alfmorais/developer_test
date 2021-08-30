@@ -1,0 +1,41 @@
+[
+    {
+        "survey_question": 1,
+        "first_alternative": "a) Flask",
+        "second_alternative": "b) FastAPI",
+        "third_alternative": "c) Django",
+        "user_answer": [
+            {
+                "id": 1,
+                "user_choice": "c)",
+                "user_answer": 1
+            }
+        ]
+    },
+    {
+        "survey_question": 2,
+        "first_alternative": "a) django-admin startproject <name_project>",
+        "second_alternative": "b) python manage.py runserver",
+        "third_alternative": "c) uvicorn main:app --reload",
+        "user_answer": [
+            {
+                "id": 2,
+                "user_choice": "a)",
+                "user_answer": 2
+            }
+        ]
+    },
+    {
+        "survey_question": 3,
+        "first_alternative": "a) flask run",
+        "second_alternative": "b) python manage.py runserver",
+        "third_alternative": "c) uvicorn main:my_awesome_api --reload",
+        "user_answer": [
+            {
+                "id": 3,
+                "user_choice": "b)",
+                "user_answer": 3
+            }
+        ]
+    }
+]

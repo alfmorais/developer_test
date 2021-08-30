@@ -14,6 +14,7 @@ from .serializers import (SurveyQuestionAlternativeSerializer,
 # define viewsets for classes created on serializers.py
 class SurveyQuestionAlternativeViewSet(viewsets.ModelViewSet):
     serializer_class = SurveyQuestionAlternativeSerializer
+    queryset = SurveyQuestionAlternative.objects.all()
 
     def get_queryset(self):
         survey = Survey.objects.all().values_list(

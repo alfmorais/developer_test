@@ -18,7 +18,9 @@ class SurveyQuestion(models.Model):
     """
     This class will created a survey question in our database
     """
-    survey = models.ForeignKey('Survey', on_delete=models.CASCADE)
+    survey = models.ForeignKey(
+        'Survey', related_name='surveys',
+        on_delete=models.CASCADE)
     question_id = models.AutoField(primary_key=True)
     question = models.CharField(max_length=255)
 
@@ -31,8 +33,8 @@ class SurveyQuestionAlternative(models.Model):
     This class will created a question alternative for our survey question
     """
     survey_question = models.ForeignKey(
-        'SurveyQuestion', on_delete=models.CASCADE
-    )
+        'SurveyQuestion', related_name='survey_questions',
+        on_delete=models.CASCADE)
     first_alternative = models.CharField(max_length=255)
     second_alternative = models.CharField(max_length=255)
     third_alternative = models.CharField(max_length=255)
@@ -53,6 +55,7 @@ class SurveyUserAnswer(models.Model):
     )
     user_answer = models.ForeignKey(
         'SurveyQuestionAlternative',
+        related_name='user_answer',
         on_delete=models.CASCADE
     )
     user_choice = models.CharField(
