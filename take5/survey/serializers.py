@@ -10,39 +10,34 @@ class SurveyUserAnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SurveyUserAnswer
-        fields = ('user_answer',
-                  'user_choice')
-
-
-class SurveyQuestionAlternativeSerializer(serializers.ModelSerializer):
-    survey_question = SurveyUserAnswerSerializer(
-        many=True, read_only=True)
-
-    class Meta:
-        model = SurveyQuestionAlternative
-        fields = ('first_alternative',
-                  'second_alternative',
-                  'third_alternative',
-                  'survey_question',)
+        fields = "__all__"
 
 
 class SurveyQuestionSerializer(serializers.ModelSerializer):
-    survey_name = SurveyQuestionAlternativeSerializer(
-        many=True, read_only=True)
 
     class Meta:
         model = SurveyQuestion
-        fields = ('survey',
-                  'question',
-                  'question_id',
-                  'survey_name')
+        fields = "__all__"
 
 
 class SurveySerializer(serializers.ModelSerializer):
-    question = SurveyQuestionSerializer(many=True, read_only=True)
 
     class Meta:
         model = Survey
-        fields = ('survey_id',
-                  'survey_name',
-                  'question')
+        fields = "__all__"
+
+
+class SurveyQuestionAlternativeSerializer(serializers.ModelSerializer):
+    question = SurveyQuestionSerializer(many=True, read_only=True)
+    survey_name = SurveySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = SurveyQuestionAlternative
+        fields = [
+            'survey_question',
+            'first_alternative',
+            'second_alternative',
+            'third_alternative',
+            'question',
+            'survey_name',
+        ]

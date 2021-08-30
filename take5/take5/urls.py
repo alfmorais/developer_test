@@ -25,7 +25,7 @@ route = routers.DefaultRouter()
 
 # defined routes to SURVEY API
 # Survey
-route.register(r'survey', viewsets.SurveyViewSet,
+route.register(r'survey', viewsets.SurveyQuestionAlternativeViewSet,
                basename="SurveyDetail")
 
 

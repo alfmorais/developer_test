@@ -12,25 +12,16 @@ from .serializers import (SurveyQuestionAlternativeSerializer,
 
 
 # define viewsets for classes created on serializers.py
-class SurveyViewSet(viewsets.ModelViewSet):
-    serializer_class = SurveySerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = Survey.objects.all()
-
-
-class SurveyQuestionViewSet(viewsets.ModelViewSet):
-    serializer_class = SurveyQuestionSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = SurveyQuestion.objects.all()
-
-
 class SurveyQuestionAlternativeViewSet(viewsets.ModelViewSet):
     serializer_class = SurveyQuestionAlternativeSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = SurveyQuestionAlternative.objects.all()
 
-
-class SurveyUserAnswerViewSet(viewsets.ModelViewSet):
-    serializer_class = SurveyUserAnswerSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = SurveyUserAnswer.objects.all()
+    def get_queryset(self):
+        survey = Survey.objects.all().values_list(
+            'survey_name', flat=True)
+        print(survey)
+        for value in survey:
+            queryset = SurveyQuestionAlternative.objects.prefetch_related(
+                'survey_question')
+            queryset = queryset.filter(
+                survey_question__survey__survey_name=value)
+        return queryset
